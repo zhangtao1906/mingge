@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-theme.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/toastr.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-table.min.css}">
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge, chrome=1"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>总进度</title>
+    <!--    <link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">-->
+    <!--    <link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.0/css/bootstrap-theme.min.css" rel="stylesheet">-->
+    <!--    <link href="https://cdn.bootcss.com/toastr.js/2.0.1/css/toastr.min.css" rel="stylesheet">-->
+    <!--    <link href="https://cdn.bootcss.com/bootstrap-table/1.14.2/bootstrap-table.min.css" rel="stylesheet">-->
+    <!--    <script src="https://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>-->
+    <!--    <script src="https://cdn.bootcss.com/twitter-bootstrap/3.3.0/js/bootstrap.min.js"></script>-->
+</head>
+<style>
+    .panel-bottom {
+        margin-bottom: 10px
+    }
+</style>
+<body>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <!-- general form elements -->
+                <div class="card card-primary">
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <form role="form">
+                        <div class="card-body">
+                            <div class="panel panel-default panel-bottom">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title" th:text="${stationID} + '进度'"></h3>
+                                </div>
+                                <div class="panel-body">
+                                    <div th:attr="id='station_'+ ${stationID}+ '_jindu'"  style="height: 350px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <!-- general form elements -->
+                <div class="card card-primary">
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <form role="form">
+                        <div class="card-body">
+                            <div class="panel panel-default panel-bottom">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">当日进度展示</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <div th:attr="id='station_'+ ${stationID}+ '_gauge'" style="height: 350px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <!-- general form elements -->
+                <div class="card card-primary">
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <form role="form">
+                        <div class="panel panel-default panel-bottom">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">工作量对比</h3>
+                            </div>
+
+                            <div class="panel-body">
+                                <div th:attr="id='station_'+ ${stationID}+ '_compare'" style="height: 300px;"></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <!-- general form elements -->
+                <div class="card card-primary">
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <form role="form">
+                        <div class="card-body">
+                            <div class="panel panel-default panel-bottom">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">各专业进度</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <div th:attr="id='station_'+ ${stationID}+ '_major'" style="height: 300px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <!-- general form elements -->
+                <div class="card card-primary">
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <form role="form">
+                        <div class="panel panel-default panel-bottom">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">工序图</h3>
+                            </div>
+
+                            <div class="panel-body">
+                                <div th:attr="id='station_'+ ${stationID}+ '_consume'" style="height: 300px;"></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+<script type="text/javascript" src="/echarts/echarts.all.js"></script>
+<script type="text/javascript" src="/js/common.js"></script>
+<script type="text/javascript" src="/js/echartsCommon.js"></script>
+<script type="text/javascript" src="/appJs/line.js"></script>
+<script type="text/javascript">
+
+    var stationID = ([[${stationID}]]);
+    var jinduDomID = 'station_' + stationID + '_jindu';
+    var compareDomID = 'station_' + stationID + '_compare';
+    var gaugeDomID = 'station_' + stationID + '_gauge';
+    var station = stationID + "号站";
+
+    initControllers.initTeamJinduAll(jinduDomID, station, gaugeDomID);
+    initControllers.compareTeamWork(compareDomID, station);
+
+    // initControllers.initTeamMajorJindu('station_1_major', '1号站', '2020-08-10');
+
+
+
+</script>
+</body>
+</html>
